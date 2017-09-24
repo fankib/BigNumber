@@ -1,10 +1,10 @@
-package ch.beni.bignumber.engine;
+package ch.fankib.bignumber.engine;
 
 import java.math.BigInteger;
 import java.util.Arrays;
 
-import ch.beni.bignumber.operation.Operation;
-import ch.beni.bignumber.operation.Operations;
+import ch.fankib.bignumber.operation.Operation;
+import ch.fankib.bignumber.operation.Operations;
 
 /**
  * @author beni

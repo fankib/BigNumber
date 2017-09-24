@@ -1,4 +1,4 @@
-package ch.beni.bignumber.operation;
+package ch.fankib.bignumber.operation;
 
 public class Operations {
 

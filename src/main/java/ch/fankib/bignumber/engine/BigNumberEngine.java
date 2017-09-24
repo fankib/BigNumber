@@ -1,4 +1,4 @@
-package ch.beni.bignumber.engine;
+package ch.fankib.bignumber.engine;
 
 import java.math.BigInteger;
 import java.util.List;

@@ -1,4 +1,4 @@
-package ch.beni.external;
+package ch.fankib.showcase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,11 +6,11 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import ch.beni.bignumber.engine.BatchingNumberEngine;
-import ch.beni.bignumber.engine.BigNumber;
-import ch.beni.bignumber.engine.BigNumberEngine;
-import ch.beni.bignumber.engine.ParallelNumberEngine;
-import ch.beni.bignumber.engine.RecursiveNumberEngine;
+import ch.fankib.bignumber.engine.BatchingNumberEngine;
+import ch.fankib.bignumber.engine.BigNumber;
+import ch.fankib.bignumber.engine.BigNumberEngine;
+import ch.fankib.bignumber.engine.ParallelNumberEngine;
+import ch.fankib.bignumber.engine.RecursiveNumberEngine;
 
 public class Showcase1 {
 

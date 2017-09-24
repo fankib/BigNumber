@@ -1,4 +1,4 @@
-package ch.beni.bignumber.engine;
+package ch.fankib.bignumber.engine;
 
 public class RecursiveNumberEngine extends BigNumberEngine {
 
