@@ -2,7 +2,7 @@
  * Copyright E-Voting Group BFH, Bern University of Applied Sciences
  * Exclusively licensed to Valuetainment AG
  */
-package ch.fankib.showcase.shuffle;
+package ch.fankib.bignumber.utils;
 
 import java.util.ArrayList;
 

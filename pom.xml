@@ -21,6 +21,32 @@
 			<version>2.0.0</version>
 		</dependency>
 
+		<!-- hazelcast support -->
+		<dependency>
+			<groupId>com.hazelcast</groupId>
+			<artifactId>hazelcast</artifactId>
+			<version>3.8.6</version>
+		</dependency>
+
+
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.fasterxml.jackson.core</groupId> -->
+<!-- 			<artifactId>jackson-databind</artifactId> -->
+<!-- 			<version>2.9.1</version> -->
+<!-- 		</dependency> -->
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.25</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.2.3</version>
+		</dependency>
+
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

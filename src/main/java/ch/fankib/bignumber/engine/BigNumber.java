@@ -1,5 +1,6 @@
 package ch.fankib.bignumber.engine;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Arrays;
@@ -12,7 +13,9 @@ import ch.fankib.bignumber.operation.RandomValue;
  * @author beni
  *
  */
-public class BigNumber {
+public class BigNumber implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private static final BigNumberEngine DEFAULT_ENGINE = new RecursiveNumberEngine();
 

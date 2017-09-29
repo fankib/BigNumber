@@ -1,6 +1,10 @@
 package ch.fankib.bignumber.engine;
 
-public class RecursiveNumberEngine extends BigNumberEngine {
+import java.io.Serializable;
+
+public class RecursiveNumberEngine extends BigNumberEngine implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void abstractResolve(BigNumber bigNumber) {
@@ -11,6 +15,5 @@ public class RecursiveNumberEngine extends BigNumberEngine {
 		}
 		processOperation(bigNumber);
 	}
-
 
 }

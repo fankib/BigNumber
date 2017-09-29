@@ -13,9 +13,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Stopwatch;
 
-import ch.fankib.bignumber.engine.BatchingNumberEngine;
+import com.hazelcast.core.Hazelcast;
+
 import ch.fankib.bignumber.engine.BigNumber;
 import ch.fankib.bignumber.engine.BigNumberEngine;
+import ch.fankib.bignumber.engine.HazelcastNumberEngine;
+import ch.fankib.bignumber.utils.IndexedList;
 
 public class ShuffleProofShowcase {
 
@@ -34,8 +37,9 @@ public class ShuffleProofShowcase {
 	public static final BigNumber SK = Q.random().resolveNow();
 	public static final BigNumber Y = G.modExp(SK, P).resolveNow();
 
-	private BigNumberEngine engine = new BatchingNumberEngine();
+	// private BigNumberEngine engine = new BatchingNumberEngine();
 	// private BigNumberEngine engine = new RecursiveNumberEngine();
+	private BigNumberEngine engine = new HazelcastNumberEngine(Hazelcast.newHazelcastInstance());
 
 	@Rule
 	public final Stopwatch stopwatch = new Stopwatch() {
@@ -80,9 +84,13 @@ public class ShuffleProofShowcase {
 
 		List<Integer> permutation = generatePermutation(ciphers.size());
 
-		List<Pair> shuffle = shuffle(reencryptions, permutation);
+		// List<Pair> shuffle = shuffle(reencryptions, permutation);
 
-		engine.resolve(flat(shuffle));
+		engine.resolve(flat(reencryptions));
+
+		reencryptions.stream().forEach(pair -> {
+			System.out.println(decrypt(pair).resolveNow());
+		});
 
 		// generate proofs
 
@@ -141,7 +149,7 @@ public class ShuffleProofShowcase {
 	}
 
 	private List<Pair> createCipherTexts() {
-		int messageCount = 800;
+		int messageCount = 20;
 
 		return new IndexedList(messageCount).parallelStream().map((m) -> {
 			// map Zq to Gq
