@@ -35,11 +35,11 @@ public class Showcase1 {
 		BigNumber a = new BigNumber("1");
 		BigNumber b = new BigNumber("2");
 
-		BigNumber c = a.add(b);
+		BigNumber c = a.slowAdd(b);
 
 		BigNumber d = new BigNumber("3");
 
-		BigNumber result = c.add(d);
+		BigNumber result = c.slowAdd(d);
 
 		BigNumberEngine parallelEngine = new ParallelNumberEngine();
 		parallelEngine.resolve(result);
@@ -80,7 +80,7 @@ public class Showcase1 {
 
 		for (int i = 0; i < 100000; i++) {
 			BigNumber nrI = new BigNumber("" + i);
-			result.add(a.add(nrI));
+			result.add(a.slowAdd(nrI));
 		}
 
 		return result;

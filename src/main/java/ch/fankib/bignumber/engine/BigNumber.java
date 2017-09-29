@@ -1,10 +1,12 @@
 package ch.fankib.bignumber.engine;
 
 import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.Arrays;
 
 import ch.fankib.bignumber.operation.Operation;
 import ch.fankib.bignumber.operation.Operations;
+import ch.fankib.bignumber.operation.RandomValue;
 
 /**
  * @author beni
@@ -13,6 +15,8 @@ import ch.fankib.bignumber.operation.Operations;
 public class BigNumber {
 
 	private static final BigNumberEngine DEFAULT_ENGINE = new RecursiveNumberEngine();
+
+	public static final BigNumber ONE = new BigNumber("1");
 
 	private BigInteger value;
 
@@ -26,6 +30,10 @@ public class BigNumber {
 
 	public BigNumber(String value) {
 		this.value = new BigInteger(value);
+	}
+
+	public BigNumber(BigInteger value) {
+		this.value = value;
 	}
 
 	public boolean isResolved() {
@@ -52,6 +60,14 @@ public class BigNumber {
 		return new BigNumber(Operations.ADDITION, this, addend);
 	}
 
+	public BigNumber slowAdd(BigNumber addend) {
+		return new BigNumber(Operations.SlOW_ADDITION, this, addend);
+	}
+
+	public BigNumber subtract(BigNumber subtrahend) {
+		return new BigNumber(Operations.SUBTRACTION, this, subtrahend);
+	}
+
 	public BigNumber mult(BigNumber factor) {
 		return new BigNumber(Operations.MULTIPLICATION, this, factor);
 	}
@@ -64,14 +80,28 @@ public class BigNumber {
 		return new BigNumber(Operations.MOD_MULT, this, factor, modulus);
 	}
 
-	public boolean test(BigNumber other) {
-		// resolve first:
-		if (!this.isResolved()) {
+	public BigNumber random() {
+		return new BigNumber(new RandomValue(new SecureRandom()), BigNumber.ONE, this);
+	}
+
+	public BigNumber random(BigNumber includedMinValue) {
+		return new BigNumber(new RandomValue(new SecureRandom()), includedMinValue, this);
+	}
+
+	public BigNumber resolveNow() {
+		defaultResolve(this);
+		return this;
+	}
+
+	private void defaultResolve(BigNumber number) {
+		if (!number.isResolved()) {
 			DEFAULT_ENGINE.resolve(this);
 		}
-		if (!other.isResolved()) {
-			DEFAULT_ENGINE.resolve(other);
-		}
+	}
+
+	public boolean test(BigNumber other) {
+		defaultResolve(this);
+		defaultResolve(other);
 		return this.getValue().equals(other.getValue());
 	}
 
@@ -116,6 +146,5 @@ public class BigNumber {
 		}
 		return "BigNumber [operation=" + operation + ", inputs=" + Arrays.toString(inputs) + "]";
 	}
-
 
 }

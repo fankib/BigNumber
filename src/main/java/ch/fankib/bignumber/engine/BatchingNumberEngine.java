@@ -9,16 +9,18 @@ import java.util.concurrent.Future;
 
 public class BatchingNumberEngine extends BigNumberEngine {
 
-	ExecutorService service = Executors.newFixedThreadPool(4);
+	private static final int THREADS = 8;
+
+	ExecutorService service = Executors.newFixedThreadPool(THREADS);
 	RecursiveNumberEngine recursiveEngine = new RecursiveNumberEngine();
 
 	@Override
 	public void resolve(List<BigNumber> bigNumbers) {
-		int perBatch = (int) Math.ceil(bigNumbers.size() / 4.0);
+		int perBatch = (int) Math.ceil(bigNumbers.size() / (double) THREADS);
 		List<Future<?>> futures = new ArrayList<>();
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < THREADS; i++) {
 			int index = i;
-			if (i < 3) {
+			if (i < THREADS - 1) {
 				futures.add(service.submit(() -> {
 					recursiveEngine.resolve(bigNumbers.subList((index) * perBatch, (index + 1) * perBatch));
 				}));
