@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Arrays;
 
+import ch.fankib.bignumber.operation.EqualTest;
 import ch.fankib.bignumber.operation.Operation;
 import ch.fankib.bignumber.operation.Operations;
 import ch.fankib.bignumber.operation.RandomValue;
@@ -14,6 +15,63 @@ import ch.fankib.bignumber.operation.RandomValue;
  *
  */
 public class BigNumber implements Serializable {
+
+	public static class ConditionBuilder {
+
+		private BigNumber test;
+		private BigNumber equals;
+		private BigNumber then;
+
+		protected ConditionBuilder() {
+		}
+
+		public ConditionBuilder test(BigNumber test) {
+			this.test = test;
+			return this;
+		}
+
+		public ConditionBuilder equals(BigNumber equals) {
+			this.equals = equals;
+			return this;
+		}
+
+		public ConditionBuilder then(BigNumber then) {
+			this.then = then;
+			return this;
+		}
+
+		public BigNumber otherwise(BigNumber otherwise) {
+			if (test == null || equals == null || then == null || otherwise == null) {
+				throw new IllegalArgumentException();
+			}
+			return new ConditionalBigNumber(Operations.EQUAL_TEST, test, equals, then, otherwise);
+		}
+
+	}
+
+	private static class ConditionalBigNumber extends BigNumber {
+
+		private BigNumber then;
+		private BigNumber otherwise;
+
+		public ConditionalBigNumber(Operation operation, BigNumber test, BigNumber equals, BigNumber then, BigNumber otherwise) {
+			super(operation, test, equals);
+			this.then = then;
+			this.otherwise = otherwise;
+		}
+
+		@Override
+		void resolve(BigInteger value) {
+			BigNumber toResolve = null;
+			if (value.equals(EqualTest.TRUE)) {
+				toResolve = then;
+			} else {
+				toResolve = otherwise;
+			}
+			super.resolve(toResolve.resolveNow().getValue());
+		}
+
+	}
 
 	private static final long serialVersionUID = 1L;
 
@@ -25,6 +83,13 @@ public class BigNumber implements Serializable {
 
 	private BigNumber[] inputs;
 	private Operation operation;
+
+	public ConditionBuilder test(BigNumber equals) {
+		ConditionBuilder builder = new ConditionBuilder();
+		builder.test(this);
+		builder.equals(equals);
+		return builder;
+	}
 
 	public BigNumber(Operation operation, BigNumber... inputs) {
 		this.inputs = inputs;
@@ -102,7 +167,7 @@ public class BigNumber implements Serializable {
 		}
 	}
 
-	public boolean test(BigNumber other) {
+	public boolean testNow(BigNumber other) {
 		defaultResolve(this);
 		defaultResolve(other);
 		return this.getValue().equals(other.getValue());

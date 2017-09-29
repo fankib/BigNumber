@@ -25,9 +25,9 @@ public class Showcase1 {
 		BigNumber inGroup = new BigNumber("16");
 		BigNumber notInGroup = new BigNumber("17");
 
-		Assert.assertTrue(inGroup.modExp(order, modulus).test(one));
-		Assert.assertFalse(notInGroup.modExp(order, modulus).test(one));
-		Assert.assertTrue(generator.modExp(order, modulus).test(one));
+		Assert.assertTrue(inGroup.modExp(order, modulus).testNow(one));
+		Assert.assertFalse(notInGroup.modExp(order, modulus).testNow(one));
+		Assert.assertTrue(generator.modExp(order, modulus).testNow(one));
 	}
 
 	@Test

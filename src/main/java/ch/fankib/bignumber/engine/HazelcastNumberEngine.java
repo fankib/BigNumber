@@ -43,7 +43,7 @@ public class HazelcastNumberEngine extends BigNumberEngine {
 	private IExecutorService executorService;
 
 	public HazelcastNumberEngine(HazelcastInstance hazel) {
-		rrd = new RoundRobinDistributor(hazel.getCluster().getLocalMember(), hazel.getCluster().getMembers());
+		rrd = new RoundRobinDistributor(null, hazel.getCluster().getMembers());
 		executorService = hazel.getExecutorService("bigNumberDistributor");
 	}
 

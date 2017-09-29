@@ -6,6 +6,7 @@ package ch.fankib.showcase.shuffle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.junit.Assert;
@@ -76,19 +77,22 @@ public class ShuffleProofShowcase {
 	public void testShuffleProof() {
 
 		List<Pair> ciphers = createCipherTexts();
+		System.out.println("after ciphers: " + stopwatch.runtime(TimeUnit.MILLISECONDS));
 
 		// reencrypt:
 		List<Pair> reencryptions = reencrypt(ciphers);
+		System.out.println("after reencryptions: " + stopwatch.runtime(TimeUnit.MILLISECONDS));
+
 
 		// permutate:
-
 		List<Integer> permutation = generatePermutation(ciphers.size());
+		List<Pair> shuffle = shuffle(reencryptions, permutation);
+		System.out.println("after shuffle: " + stopwatch.runtime(TimeUnit.MILLISECONDS));
 
-		// List<Pair> shuffle = shuffle(reencryptions, permutation);
 
 		engine.resolve(flat(reencryptions));
 
-		reencryptions.stream().forEach(pair -> {
+		shuffle.stream().limit(10).forEach(pair -> {
 			System.out.println(decrypt(pair).resolveNow());
 		});
 
@@ -149,17 +153,14 @@ public class ShuffleProofShowcase {
 	}
 
 	private List<Pair> createCipherTexts() {
-		int messageCount = 20;
+		int messageCount = 500;
 
 		return new IndexedList(messageCount).parallelStream().map((m) -> {
 			// map Zq to Gq
-			BigNumber m_z = new BigNumber("" + m);
-			BigNumber m_q = null;
-			if (m_z.add(BigNumber.ONE).modExp(Q, P).test(BigNumber.ONE)) {
-				m_q = m_z.add(BigNumber.ONE);
-			} else {
-				m_q = P.subtract(m_z.add(BigNumber.ONE));
-			}
+			BigNumber m_z_one = new BigNumber("" + m).add(BigNumber.ONE);
+			BigNumber m_q = m_z_one.modExp(Q, P).test(BigNumber.ONE)//
+					.then(m_z_one) //
+					.otherwise(P.subtract(m_z_one));
 
 			// encrypt:
 			BigNumber r = Q.random();
@@ -168,7 +169,6 @@ public class ShuffleProofShowcase {
 
 			return new Pair(a, b);
 		}).collect(Collectors.toList());
-
 	}
 
 }

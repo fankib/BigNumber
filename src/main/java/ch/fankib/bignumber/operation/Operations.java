@@ -9,4 +9,7 @@ public class Operations {
 	public static final ModularExponation MOD_EXP = new ModularExponation();
 	public static final ModularMultiplication MOD_MULT = new ModularMultiplication();
 
+
+	public static final EqualTest EQUAL_TEST = new EqualTest();
+
 }
