@@ -1,7 +1,3 @@
-/* 
- * Copyright E-Voting Group BFH, Bern University of Applied Sciences
- * Exclusively licensed to Valuetainment AG
- */
 package ch.fankib.showcase.shuffle;
 
 import java.util.ArrayList;
@@ -83,12 +79,10 @@ public class ShuffleProofShowcase {
 		List<Pair> reencryptions = reencrypt(ciphers);
 		System.out.println("after reencryptions: " + stopwatch.runtime(TimeUnit.MILLISECONDS));
 
-
 		// permutate:
 		List<Integer> permutation = generatePermutation(ciphers.size());
 		List<Pair> shuffle = shuffle(reencryptions, permutation);
 		System.out.println("after shuffle: " + stopwatch.runtime(TimeUnit.MILLISECONDS));
-
 
 		engine.resolve(flat(reencryptions));
 
