@@ -19,7 +19,7 @@ BigNumberEngine engine = new BatchingNumberEngine();
 engine.resolve(listOfBigNumbers);
 ```
 
-## Lazy predicates
+## Lazy branch evaluation
 ```java
 BigNumber z = ORDER.random();
 BigNumber mq = z.modExp(ORDER, MODULUS).test(BigNumber.ONE) // default is an equals test
@@ -30,10 +30,10 @@ BigNumber mq = z.modExp(ORDER, MODULUS).test(BigNumber.ONE) // default is an equ
 # BigNumberEngines
 The following engines to resolve a BigNumber are implemented:
 * **RecursiveNumberEngine**
-Single threaded, walks the tree up to the root and starts resolving it.
+Single threaded, walks the parents up to the root and starts resolving from there.
 * **ParalellNumberEngine**
-Separates the tree in its layers and resolves this layers parallel.
+Separates the tree in its layers and resolves those layers parallel.
 * **BatchingNumberEngine**
-Separates a List of BigNumber into chunks and reslove this chuncks on different Threads with the recursive strategy.
+Separates a List of BigNumber into chunks and reslove those chunks on different threads with the recursive strategy.
 * **HazelcastNumberEngine**
-Separates a List of BigNumber into chunks and resolve this chunks with an HazelcastServiceExecutor and the recursive strategy.
+Separates a List of BigNumber into chunks and resolve those chunks with an HazelcastServiceExecutor and the recursive strategy (easy high performance in your trusted network).
